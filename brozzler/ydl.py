@@ -328,7 +328,8 @@ def _try_youtube_dl(worker, ydl, site, page):
             # we do whatwg canonicalization here to avoid "<urlopen error
             # no host given>" resulting in ProxyError
             # needs automated test
-            ie_result = ydl.extract_info(str(urlcanon.whatwg(page.url)))
+            # and yt-dlp needs sanitize_info for extract_info
+            ie_result = ydl.sanitize_info(ydl.extract_info(str(urlcanon.whatwg(page.url))))
         _remember_videos(page, ydl.fetch_spy.fetches, ydl.stitch_ups)
         if worker._using_warcprox(site):
             info_json = json.dumps(ie_result, sort_keys=True, indent=4)
