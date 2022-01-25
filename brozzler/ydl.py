@@ -265,7 +265,7 @@ def _build_youtube_dl(worker, destdir, site):
         # "aext: Audio Extension (m4a > aac > mp3 > ogg > opus > webm > other)."
         # "If --prefer-free-formats is used, the order changes to opus > ogg > webm > m4a > mp3 > aac."
         # "ext: Equivalent to vext,aext"
-        "format_sort": "ext",
+        "format_sort": ["ext"],
 
         # --cache-dir local or...
         "cache_dir": False,
