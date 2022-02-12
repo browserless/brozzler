@@ -249,15 +249,11 @@ def _build_youtube_dl(worker, destdir, site):
                     'problem heartbeating site.last_claimed site id=%r',
                     site.id, exc_info=True)
 
-    def ydl_download_hook(d):
-        if d['status'] == 'finished':
-            print('[ydl_download_hook] Done downloading, now converting {} ...'.format(d['filename']))
-
     def ydl_postprocess_hook(d):
         if d['status'] == 'finished':
             print('[ydl_postprocess_hook] Done postprocessing')
             if worker._using_warcprox(site):
-                self._push_stitched_up_vid_to_warcprox(site, d['info_dict'])
+                _YoutubeDL._push_stitched_up_vid_to_warcprox(site, d['info_dict'])
 
     ydl_opts = {
         "outtmpl": "{}/ydl%(autonumber)s.out".format(destdir),
@@ -267,8 +263,8 @@ def _build_youtube_dl(worker, destdir, site):
         "noprogress": True,
         "nopart": True,
         "no_color": True,
-        "progress_hooks": [maybe_heartbeat_site_last_claimed, ydl_download_hook,],
-        "postprocessor_hooks": [ydl_postprocess_hook,],
+        "progress_hooks": [maybe_heartbeat_site_last_claimed],
+        "postprocessor_hooks": [ydl_postprocess_hook],
 
         # https://github.com/yt-dlp/yt-dlp#format-selection
         # "By default, yt-dlp tries to download the best available quality..."
