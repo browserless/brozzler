@@ -253,7 +253,7 @@ def _build_youtube_dl(worker, destdir, site):
         if d['status'] == 'finished':
             print('[ydl_postprocess_hook] Done postprocessing')
             if worker._using_warcprox(site):
-                _YoutubeDL._push_stitched_up_vid_to_warcprox(site, d['info_dict'])
+                _YoutubeDL._push_stitched_up_vid_to_warcprox(_YoutubeDL, site, d['info_dict'])
 
     ydl_opts = {
         "outtmpl": "{}/ydl%(autonumber)s.out".format(destdir),
