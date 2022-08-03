@@ -31,6 +31,7 @@ import urlcanon
 import urllib
 import uuid
 import yaml
+import zlib
 from typing import Optional
 
 def load_schema():
@@ -275,6 +276,8 @@ class Site(doublethink.Document, ElapsedMixIn):
     def extra_headers(self, page: Optional["Page"] = None):
         hdrs = {}
         if self.warcprox_meta:
+            if "blocks" in self.warcprox_meta:
+                self.warcprox_meta['blocks'] = zlib.compress(self.warcprox_meta["blocks"].encode())
             if page is not None:
                 self.warcprox_meta["metadata"]["hop_path"] = page.hop_path
                 self.warcprox_meta["metadata"]["brozzled_url"] = page.url
