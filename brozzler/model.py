@@ -281,7 +281,7 @@ class Site(doublethink.Document, ElapsedMixIn):
             if "blocks" in self.warcprox_meta:
                 # delete the copy's 'blocks' first in case they're big
                 del temp_warcprox_meta['blocks']
-                temp_warcprox_meta['compressed_blocks'] = zlib.compress(self.warcprox_meta["blocks"].encode())
+                temp_warcprox_meta['compressed_blocks'] = zlib.compress(('~~'.join(self.warcprox_meta["blocks"])).encode())
             if page is not None:
                 temp_warcprox_meta["metadata"]["hop_path"] = page.hop_path
                 temp_warcprox_meta["metadata"]["brozzled_url"] = page.url
